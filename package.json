@@ -16,8 +16,16 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
+    "eslint-config-standard": "^14.1.0",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+    "standard": "^14.3.1"
+  },
+  "standard": {
+    "ignore": [
+      "node_modules/",
+      "data/"
+    ]
   }
 }
