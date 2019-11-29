@@ -7,6 +7,8 @@ const Product = require('./models/product')
 const User = require('./models/user')
 const Cart = require('./models/cart')
 const CartItem = require('./models/cart-item')
+const Order = require('./models/order')
+const OrderItem = require('./models/order-item')
 
 const app = express()
 
@@ -48,6 +50,9 @@ User.hasOne(Cart)
 Cart.belongsTo(User)
 Cart.belongsToMany(Product, { through: CartItem })
 Product.belongsToMany(Cart, { through: CartItem })
+Order.belongsTo(User)
+User.hasMany(Order)
+Order.belongsToMany(Product, { through: OrderItem })
 
 db.sync({ alter: true })
   .then(result => {
@@ -59,8 +64,14 @@ db.sync({ alter: true })
     }
     return user
   })
-  .then(user => {
-    // console.log(user)
+  .then(async user => {
+    const cart = await user.getCart()
+    if (!cart) {
+      return user.createCart()
+    }
+    return cart
+  })
+  .then(cart => {
     app.listen(3000)
   })
   .catch(err => {
